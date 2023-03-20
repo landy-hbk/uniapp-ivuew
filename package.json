@@ -1,0 +1,23 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "test app",
+  "main": "main.js",
+  "dependencies": {
+    "clipboard": "^2.0.11",
+    "dayjs": "^1.11.7",
+    "sass-loader": "^13.2.0",
+    "uview-plus": "^3.1.29",
+    "uview-ui": "^2.0.35"
+  },
+  "devDependencies": {
+    "browserslist": "^4.21.5",
+    "caniuse-lite": "^1.0.30001465",
+    "node-sass": "^8.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
