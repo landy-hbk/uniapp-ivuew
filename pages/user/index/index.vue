@@ -4,7 +4,7 @@
 			<image src="../../../static/images/user_default.png"  class="avatar" ></image>
 			<view class="user-info">
 				<view class="user-name">
-					<text class="name">爱上可</text>
+					<text class="name">爱上可1</text>
 					<image src="../../../static/images/level_3.png" mode="heightFix" class="user-level"></image>
 				</view>
 				<text class="user-money">账户余额：<text class="font-red">0</text> 元</text>
@@ -33,12 +33,13 @@
 				<text class="menu-text">退出</text>
 			</view>
 		</view>
-		
+		<FooterNav />
 		<u-modal :show="show" title="退出" content='您确认要退出用户登录?' :showCancelButton="true" @confirm="sinOut(true)" @cancel="sinOut(false)"></u-modal>
 	</view>
 </template>
 
 <script>
+	import FooterNav from '@/components/footerNav.vue'
 	export default {
 		data() {	
 			return {
@@ -70,6 +71,15 @@
 				]
 			}
 		},
+		mounted() {
+			const userInfo =  uni.getStorageSync('userInfo');
+			
+			if(!userInfo) {
+				uni.redirectTo({
+					url: '/pages/index/login'
+				})
+			}
+		},
 		methods: {
 			showSinModel() {
 				this.show = true;
@@ -85,6 +95,9 @@
 				}
 				
 			},
+		},
+		components: {
+			FooterNav,
 		}
 	}
 </script>

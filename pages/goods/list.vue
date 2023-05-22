@@ -31,12 +31,14 @@
 		<view class="goods-warrper">
 			<RecomendList :data="goodsList" :goodsClick="goodsClick" key="k"/>
 		</view>
+		<FooterNav />
 	</view>
 </template>
 
 <script>
 import { ref, reactive } from 'vue'
 import RecomendList from '@/components/recomendList.vue'
+import FooterNav from '@/components/footerNav.vue'
 	
 export default {
 	setup() {
@@ -155,6 +157,7 @@ export default {
 	},
 	components: {
 		RecomendList,
+		FooterNav,
 	},
 }
 </script>
@@ -163,6 +166,7 @@ export default {
 .goodsList-view {
 	min-height: 100vh;
 	background-color: rgb(245, 245, 246);
+	padding-bottom: 120rpx;
 	.swiper-warrper {
 		.swiper {
 			height: 300rpx;
