@@ -49,6 +49,13 @@ export default {
 			   	duration: 1500
 			   });
 		   }
+			
+			uni.setStorageSync('userInfo', {
+				name: '小可爱',
+				sex: '男',
+				phone: '19912341111',
+				age: 18,
+			})
 		   
 			uni.navigateTo({
 				url: '/pages/index/index'

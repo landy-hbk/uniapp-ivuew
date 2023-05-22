@@ -1,5 +1,6 @@
 import App from './App.vue'
-import uviewPlus from './uni_modules/uview-plus/index.js'
+// import uviewPlus from './uni_modules/uview-plus/index.js'
+import uviewPlus from 'uview-plus'
 
 console.log(uviewPlus, 'uviewPlus')
 

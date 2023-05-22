@@ -5,14 +5,14 @@
 		</view>
 		<view class="swiper-warrper">
 			<swiper class="swiper" circular  :autoplay="true" >
-				<swiper-item v-for="(v, k) in [,,,]" :v-key="k">
+				<swiper-item v-for="(v, k) in [,,,]" :key="k">
 					<image class="swiper-img"  :src="`../../static/images/swiper_${k+1}.jpg`" />
 				</swiper-item>
 			</swiper>
 		</view>
 		<view class="search-box">
 			<view class="search-type">
-				<view class="type-item" v-for="(item, k) in goodsTypeList" v-key="k">
+				<view class="type-item" v-for="(item, k) in goodsTypeList" :key="k">
 					<image :src="`../../static/images/type_${k+1}.png`" class="type-img" /> 
 					<text class="type-text">{{ item.title }}</text>
 				</view>

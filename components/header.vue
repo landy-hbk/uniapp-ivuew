@@ -17,6 +17,7 @@
 			></u-search>
 		</view>
 		<u-icon name="account-fill" size="30" class="right-icon" @click="jumpLogin"></u-icon>
+		<!-- <text>{{ userInfo.name }}</text> -->
 	</view>
 </template>
 
@@ -29,7 +30,13 @@
 			return {
 				inputText: '',
 				value: '',
+				userInfo: '',
 			};
+		},
+		mounted() {
+			const userInfo = uni.getStorageSync('userInfo');
+			
+			this.userInfo = userInfo;
 		},
 		methods: {
 			claerInput() {
@@ -40,8 +47,12 @@
 				this.inputText = e;
 			},
 			jumpLogin() {
+				const userInfo = uni.getStorageSync('userInfo')
+				
+				
+				
 				uni.navigateTo({
-					url: "/pages/index/login"
+					url: userInfo && userInfo.name  ? "/pages/user/index/index" :"/pages/index/login"
 				})
 			}
 			
