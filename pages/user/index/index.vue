@@ -28,6 +28,14 @@
 				<image :src="`../../../static/images/user_menu_${k+2}.png`" mode="widthFix" class="menu-icon"></image>
 				<text class="menu-text">{{ v.name }}</text>
 			</view>
+			<view class="menu-item" @click="pushMessage">
+				<image :src="`../../../static/images/user_menu_${2}.png`" mode="widthFix" class="menu-icon"></image>
+				<text class="menu-text">消息通知</text>
+			</view>
+			<view class="menu-item" @click="scanCode">
+				<image :src="`../../../static/images/user_menu_${2}.png`" mode="widthFix" class="menu-icon"></image>
+				<text class="menu-text">扫一扫</text>
+			</view>
 			<view class="menu-item" @click="showSinModel">
 				<image :src="`../../../static/images/user_menu_${2}.png`" mode="widthFix" class="menu-icon"></image>
 				<text class="menu-text">退出</text>
@@ -35,6 +43,8 @@
 		</view>
 		<FooterNav />
 		<u-modal :show="show" title="退出" content='您确认要退出用户登录?' :showCancelButton="true" @confirm="sinOut(true)" @cancel="sinOut(false)"></u-modal>
+		
+		<u-modal :show="showScan" :content="'条码类型为：'+ scanType+  '\n' +'条码内容：' + scanText"  @confirm="() => showScan = false"></u-modal>
 	</view>
 </template>
 
@@ -44,6 +54,7 @@
 		data() {	
 			return {
 				show: false,
+				showScan: false,
 				orderEnterList: [
 					{
 						name: '待付款'
@@ -68,9 +79,12 @@
 					{
 						name: '我的抽奖单',
 					},
-				]
+				],
+				scanType: '',
+				scanText: '',
 			}
 		},
+		
 		mounted() {
 			const userInfo =  uni.getStorageSync('userInfo');
 			
@@ -94,6 +108,32 @@
 					this.show = false;
 				}
 				
+			},
+			pushMessage() {
+				uni.createPushMessage({
+					title: '推送消息测试',
+					content: '测试成功哈哈哈',
+					sound: 'system',
+					cover: true,
+					payload: {
+						url: '/pages/index/index'
+					},
+					success: () => {
+						console.log('推送消息成功！-----------')
+					}
+				})
+			},
+			scanCode() {
+				const that = this;
+				uni.scanCode({
+					success: function (res) {
+						// console.log('条码类型：' + res.scanType);
+						// console.log('条码内容：' + res.result);
+						that.showScan = true;
+						that.scanType = res.scanType;
+						that.scanText = res.result;
+					}
+				})
 			},
 		},
 		components: {

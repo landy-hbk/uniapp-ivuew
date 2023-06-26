@@ -6,9 +6,9 @@ rn_temp/
 .rn_temp/
 node_modules/
 uni_modules/
+unpackage/
 .DS_Store
 
-/node_modules
 yarn.lock
 
 # logs
