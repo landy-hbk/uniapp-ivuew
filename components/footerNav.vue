@@ -19,18 +19,19 @@
 					{
 						name: '首页',
 						icon: homeIcon,
-						url: '/pages/index/index'
+						url: '/pages/goods/list'
 					},
 					{
 						name: '订单',
 						icon: orderIcon,
-						// url: '/pages/index/index'
+						url: '/pages/order/orderList'
 					},
 					{
 						name: '用户中心',
 						icon: userIcon,
 						url: '/pages/user/index/index'
 					},
+					
 				]
 			};
 		},

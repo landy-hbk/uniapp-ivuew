@@ -8,6 +8,7 @@ node_modules/
 uni_modules/
 unpackage/
 .DS_Store
+/unpackage
 
 yarn.lock
 

@@ -13,10 +13,13 @@
   "devDependencies": {
     "browserslist": "^4.21.5",
     "caniuse-lite": "^1.0.30001465",
+    "eslint": "^8.44.0",
+    "eslint-plugin-vue": "^9.15.1",
     "node-sass": "^8.0.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --fix --ext .js,.vue src"
   },
   "author": "",
   "license": "ISC"

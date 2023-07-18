@@ -4,60 +4,51 @@
 			<text>广州</text>
 			<u-icon name="arrow-down" size="14"></u-icon>
 		</view>
-		
+
 		<view class="header-search">
-			<u-search 
-				shape="round" 
-				:clearabled="true" 
-				:showAction="false"
-				bgColor="#fff" 
-				:value="inputText" 
-				@clear="claerInput"
-				@change="changeInput"
-			></u-search>
+			<u-search shape="round" :clearabled="true" :showAction="false" bgColor="#fff" :value="inputText" @clear="claerInput" @change="changeInput"></u-search>
 		</view>
-		<u-icon name="account-fill" size="30" class="right-icon" @click="jumpLogin"></u-icon>
+		<u-icon name="account-fill" size="30" class="right-icon" @click="jumpLogin" v-if="!userInfo"></u-icon>
+		<image src="../static/images/user_default.png" mode="widthFix" class="user-img" @click="jumpLogin"></image>
 		<!-- <text>{{ userInfo.name }}</text> -->
 	</view>
 </template>
 
 <script>
-	import { toRaw } from 'vue'
-	
-	export default {
-		name:"headers", 
-		data() {
-			return {
-				inputText: '',
-				value: '',
-				userInfo: '',
-			};
+import { toRaw } from 'vue';
+
+export default {
+	name: 'headers',
+	data() {
+		return {
+			inputText: '',
+			value: '',
+			userInfo: ''
+		};
+	},
+	mounted() {
+		const userInfo = uni.getStorageSync('userInfo');
+
+		this.userInfo = userInfo;
+	},
+	methods: {
+		claerInput() {
+			this.inputText = '';
 		},
-		mounted() {
+		changeInput(e) {
+			this.inputText = e;
+		},
+		jumpLogin() {
 			const userInfo = uni.getStorageSync('userInfo');
-			
-			this.userInfo = userInfo;
-		},
-		methods: {
-			claerInput() {
-				this.inputText = '';
-				
-			},
-			changeInput(e) {
-				this.inputText = e;
-			},
-			jumpLogin() {
-				const userInfo = uni.getStorageSync('userInfo')
-				
-				
-				
-				uni.navigateTo({
-					url: userInfo && userInfo.name  ? "/pages/user/index/index" :"/pages/index/login"
-				})
-			}
-			
+
+			uni.navigateTo({
+				url: userInfo && userInfo.name ? '/pages/user/index/index' : '/pages/index/login'
+			})
+
 		}
 	}
+}
+
 </script>
 
 <style lang="scss" scoped>
@@ -67,7 +58,7 @@
 	display: flex;
 	justify-items: center;
 	align-items: center;
-	background: linear-gradient(135deg,#ffd000,#ffbd00);
+	background: linear-gradient(135deg, #ffd000, #ffbd00);
 	.user-loacation {
 		display: flex;
 		align-self: center;
@@ -76,7 +67,12 @@
 		flex: 1;
 	}
 	.right-icon {
-		justify-self:  end;
+		justify-self: end;
+	}
+	.user-img {
+		width: 60rpx;
+		height: 60rpx;
+		margin-left: 6rpx;
 	}
 }
 </style>

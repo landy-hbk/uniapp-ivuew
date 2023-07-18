@@ -4,16 +4,24 @@
 			<u-search placeholder="请输入商家名字或者商品名称" v-model="searchText"></u-search>
 		</view>
 		<view class="swiper-warrper">
-			<swiper class="swiper" circular  :autoplay="true" >
-				<swiper-item v-for="(v, k) in [,,,]" :key="k">
-					<image class="swiper-img"  :src="`../../static/images/swiper_${k+1}.jpg`" />
+			<swiper class="swiper" circular :autoplay="true">
+				<swiper-item v-for="(v, k) in [, , ,]" :key="k">
+					<image class="swiper-img" :src="`../../static/images/swiper_${k + 1}.jpg`" />
 				</swiper-item>
 			</swiper>
 		</view>
 		<view class="search-box">
 			<view class="search-type">
-				<view class="type-item" v-for="(item, k) in goodsTypeList" :key="k">
-					<image :src="`../../static/images/type_${k+1}.png`" class="type-img" /> 
+				<view 
+					:class="{
+						'type-item': true,
+						'active': goodsTypeCurrentList === item.title ? true : false
+					}" 
+					v-for="(item, k) in goodsTypeList" 
+					:key="k"
+					@click="changeGoodstype(item.title)"
+				>
+					<image :src="`../../static/images/type_${k + 1}.png`" class="type-img" />
 					<text class="type-text">{{ item.title }}</text>
 				</view>
 			</view>
@@ -22,130 +30,168 @@
 				<!-- <u-picker :show="goodsSortShow" :columns="sortList" @confirm="selectSort" @cancel="showSort(false)"></u-picker> -->
 			</view>
 			<view class="search-label">
-				<text class="label-item">点评高分</text>
-				<text class="label-item">优惠商家</text>
-				<text class="label-item">满减优惠</text>
-				<text class="label-item">品牌商家</text>
+				<text 
+					:class="{
+						'label-item': true,
+						'active': labelCurrentList.includes(v)
+					}"
+					v-for="(v, index) in labelList" 
+					:key="v+index"
+					@click="changeLabel(v)"
+				>
+					{{v}}
+				</text>
 			</view>
 		</view>
 		<view class="goods-warrper">
-			<RecomendList :data="goodsList" :goodsClick="goodsClick" key="k"/>
+			<RecomendList :data="goodsList" :goodsClick="goodsClick" key="k" />
 		</view>
 		<FooterNav />
 	</view>
 </template>
 
 <script>
-import { ref, reactive } from 'vue'
+import { ref, reactive, toRefs } from 'vue';
 import RecomendList from '@/components/recomendList.vue'
+
 import FooterNav from '@/components/footerNav.vue'
-	
+
+
 export default {
 	setup() {
 		const searchText = ref('');
 		const goodsTypeList = reactive([
 			{
-				title: '全部',
+				title: '全部'
 			},
 			{
-				title: '饺子馄饨',
+				title: '饺子馄饨'
 			},
 			{
-				title: '韩国料理',
+				title: '韩国料理'
 			},
 			{
-				title: '粥粉面馆',
+				title: '粥粉面馆'
 			},
 			{
-				title: '江浙菜系',
+				title: '江浙菜系'
 			},
 			{
-				title: '口味川湘',
+				title: '口味川湘'
 			}
-		])
-		
+		]);
+		const goodsTypeCurrentList = ref('')
+		const state = reactive({
+			labelList: ["点评高分", "优惠商家", "满减优惠", "品牌商家"],
+			labelCurrentList: [],
+			
+		})
+
 		const goodsSortShow = ref(false);
-		const sortList = reactive([[
-			"综合排序", 
-			"销量优先",
-			"距离优先",
-			"速度优先",
-			"评分优先",
-			"起送价最低",
-			"配送费最低",
-			"人均高到低",
-			"人均低到高",
-		]])
+		const sortList = reactive([['综合排序', '销量优先', '距离优先', '速度优先', '评分优先', '起送价最低', '配送费最低', '人均高到低', '人均低到高']])
+
 		const sorText = ref('综合排序');
-		
-		const showSort = status => {
+
+		const showSort = (status) => {
 			goodsSortShow.value = status;
 		}
-		const selectSort = e => {
+
+		const selectSort = (e) => {
 			const val = e.value[0];
 			sorText.value = val;
-			showSort(false)
+			showSort(false);
 			console.log(e)
-		}
-		
-		const goodsList = reactive([{
+
+		};
+
+		const goodsList = reactive([
+			{
 				title: '蜜雪冰城',
 				label: '[多城市]招牌柠檬水',
 				price: 3.6,
-				img: "../../static/images/good_1.jpg", 
-				market_price: 12,
-			},{
+				img: '../../static/images/good_1.jpg',
+				market_price: 12
+			},
+			{
 				title: '茶百道',
 				label: '[多城市]爆品-冷萃茶 2 选 1',
 				price: 6.6,
-				img: "../../static/images/good_2.jpg", 
-				market_price: 15,
-			},{
+				img: '../../static/images/good_2.jpg',
+				market_price: 15
+			},
+			{
 				title: '川锅汇·火锅·烤肉自助回转餐厅',
 				label: '[北京路商业区]火锅+烤肉自助餐',
 				price: 45,
-				img: "../../static/images/good_3.jpg", 
-				market_price: 98,
-			},{
+				img: '../../static/images/good_3.jpg',
+				market_price: 98
+			},
+			{
 				title: '华莱士·全鸡汉堡',
 				label: '[多城市]开学季双人餐',
 				price: 16.8,
-				img: "../../static/images/good_4.jpg", 
-				market_price: 32.5,
-			},{
+				img: '../../static/images/good_4.jpg',
+				market_price: 32.5
+			},
+			{
 				title: '正點煌·纯手作茶点',
 				label: '[北京路商业区]扇鸡咕咾肉甜品双人餐',
 				price: 128,
-				img: "../../static/images/good_5.jpg", 
-				market_price: 256,
-			},{
+				img: '../../static/images/good_5.jpg',
+				market_price: 256
+			},
+			{
 				title: '胜记饭店順德农家菜',
 				label: '[钟村]2-3 人海鲜大丰收套餐',
 				price: 96,
-				img: "../../static/images/good_6.jpg", 
-				market_price: 188,
-			},{
+				img: '../../static/images/good_6.jpg',
+				market_price: 188
+			},
+			{
 				title: '桃沏·鲜果轻饮',
 				label: '[龙洞/岑村]爆浆系列 2 选 1',
 				price: 6.9,
-				img: "../../static/images/good_7.jpg", 
-				market_price: 13,
-			},{
+				img: '../../static/images/good_7.jpg',
+				market_price: 13
+			},
+			{
 				title: '番佬掂·劲脆烧肉',
 				label: '[5店通用]单人烧鸭饭',
 				price: 9.9,
-				img: "../../static/images/good_8.jpg", 
-				market_price: 23,
-			}])
+				img: '../../static/images/good_8.jpg',
+				market_price: 23
+			}
+		]);
 		const goodsClick = (e) => {
-			const { title }  = e;
+			const { title } = e;
 			uni.navigateTo({
-				url: `/pages/goods/storeDetails?title=${title}`,
+				url: `/pages/goods/storeDetails?title=${title}`
 			})
 		}
+		// label点击事件
+		const changeLabel = (v) => {
+			let { labelCurrentList } = state;
+			if(labelCurrentList.includes(v)) {
+				const index = labelCurrentList.findIndex((item) => item === v)
+				labelCurrentList.splice(index, 1)
+				
+			} else {
+				labelCurrentList.push(v)
+			}
+		}
+		
+		// type
+		const changeGoodstype = (v) => {
+			goodsTypeCurrentList.value = v;
+			
+			console.log(goodsTypeCurrentList.value, 'goodsTypeCurrentList')
+		}
+
 		return {
 			searchText,
 			goodsTypeList,
+			goodsTypeCurrentList,
+			changeGoodstype,
 			goodsSortShow,
 			sortList,
 			showSort,
@@ -153,13 +199,16 @@ export default {
 			sorText,
 			goodsList,
 			goodsClick,
+			changeLabel,
+			...toRefs(state),
 		}
+
 	},
 	components: {
 		RecomendList,
-		FooterNav,
-	},
-}
+		FooterNav
+	}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -178,13 +227,14 @@ export default {
 	}
 	.search-warrper {
 		padding: 12rpx 24rpx;
-		background: #FFCC33;
+		background: #ffcc33;
 	}
 	.search-box {
 		padding: 0 24rpx;
 	}
 	.search-type {
 		margin-top: 20rpx;
+		padding: 10rpx 0;
 		white-space: nowrap;
 		overflow-x: auto;
 		background-color: #fff;
@@ -192,6 +242,16 @@ export default {
 			width: 144rpx;
 			display: inline-flex;
 			flex-wrap: wrap;
+			&.active {
+				.type-img {
+					background: rgba(197, 243, 124, .4);
+					border-radius: 50%;
+				}
+				.type-text {
+					color: #f60;
+					font-weight: 600;
+				}
+			}
 			.type-img {
 				display: block;
 				margin: 0 28rpx;
@@ -204,7 +264,7 @@ export default {
 				text-align: center;
 				font-weight: 500;
 				color: #333;
-				font-size: 14px;
+				font-size: 26rpx;
 			}
 		}
 	}
@@ -237,6 +297,9 @@ export default {
 			font-size: 24rpx;
 			color: #575859;
 			text-align: center;
+			&.active {
+				background-color: #ffd000;
+			}
 		}
 	}
 	.goods-warrper {

@@ -195,13 +195,15 @@ export default {
 	width: 100%;
 	background-color: #fff;
 	padding: 28rpx 20rpx 60rpx;
-	.recomend-title {	
+	.recomend-title {
+		padding: 0 20rpx;
 		font-size: 32rpx;
 		line-height: 40rpx;
 		font-weight: 600;
 	}
 	.recomend-list {
 		margin-top: 20rpx;
+		padding: 0 20rpx;
 	}
 }
 </style>
