@@ -18,7 +18,8 @@
         },
         /* 模块配置 */
         "modules" : {
-            "Push" : {}
+            "Push" : {},
+            "Maps" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -60,6 +61,12 @@
                         "version" : "2",
                         "offline" : false
                     }
+                },
+                "maps" : {
+                    "amap" : {
+                        "appkey_ios" : "",
+                        "appkey_android" : ""
+                    }
                 }
             }
         }
@@ -86,5 +93,17 @@
     "uniStatistics" : {
         "enable" : false
     },
-    "vueVersion" : "3"
+    "vueVersion" : "3",
+    "h5" : {
+        "unipush" : {
+            "enable" : true
+        },
+        "sdkConfigs" : {
+            "maps" : {
+                "qqmap" : {
+                    "key" : ""
+                }
+            }
+        }
+    }
 }

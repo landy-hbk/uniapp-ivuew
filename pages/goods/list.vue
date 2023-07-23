@@ -162,6 +162,7 @@ export default {
 				market_price: 23
 			}
 		]);
+		
 		const goodsClick = (e) => {
 			const { title } = e;
 			uni.navigateTo({
