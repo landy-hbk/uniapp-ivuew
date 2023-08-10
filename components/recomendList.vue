@@ -16,15 +16,33 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		name:"recomendList",
-		data() {
-			return {
+<script setup>
+	// export default {
+	// 	name:"recomendList",
+	// 	data() {
+	// 		return {
 				
-			};
-		},
-		props: {
+	// 		};
+	// 	},
+	// 	props: {
+	// 		data: {
+	// 			type: Array,
+	// 			default: [],
+	// 		},
+	// 		goodsClick: {
+	// 			type: Function,
+	// 			default: () => {},
+	// 		}
+	// 	},
+	// 	methods: {
+	// 		handleClick(v) {
+	// 			// console.log(this, 'ce')
+	// 			this.goodsClick instanceof Function  &&  this.goodsClick(v);
+	// 		}
+	// 	},
+	// }
+	const props =  defineProps(
+		{
 			data: {
 				type: Array,
 				default: [],
@@ -33,13 +51,11 @@
 				type: Function,
 				default: () => {},
 			}
-		},
-		methods: {
-			handleClick(v) {
-				// console.log(this, 'ce')
-				this.goodsClick instanceof Function  &&  this.goodsClick(v);
-			}
-		},
+		}
+	)
+
+	const handleClick = (v) => {
+		props.goodsClick instanceof Function  &&  props.goodsClick(v);
 	}
 </script>
 

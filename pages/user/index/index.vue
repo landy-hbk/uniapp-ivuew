@@ -1,31 +1,35 @@
 <template>
 	<view class="page-userCenter">
 		<view class="user-warrper">
-			<image src="../../../static/images/user_default.png"  class="avatar" ></image>
+			<image src="../../../static/images/user_default.png" class="avatar"></image>
 			<view class="user-info">
 				<view class="user-name">
 					<text class="name">爱上可1</text>
 					<image src="../../../static/images/level_3.png" mode="heightFix" class="user-level"></image>
 				</view>
-				<text class="user-money">账户余额：<text class="font-red">0</text> 元</text>
+				<text class="user-money">
+					账户余额：
+					<text class="font-red">0</text>
+					元
+				</text>
 			</view>
 		</view>
-		
+
 		<view class="order-module">
 			<view class="order-header">
-				<image src="../../../static/images/user_menu_1.png" alt="" class="header-icon" ></image>
+				<image src="../../../static/images/user_menu_1.png" alt="" class="header-icon"></image>
 				<text class="title">全部订单</text>
 			</view>
 			<view class="order-entry">
 				<view class="entry-item" v-for="(v, k) in orderEnterList" :key="v.name">
-					<image :src="`../../../static/images/order_icon_${k+1}.png`" mode="heightFix" class="entry-icon"></image>
+					<image :src="`../../../static/images/order_icon_${k + 1}.png`" mode="heightFix" class="entry-icon"></image>
 					<text class="entry-text">{{ v.name }}</text>
 				</view>
 			</view>
 		</view>
 		<view class="menu-list">
 			<view class="menu-item" v-for="(v, k) in menuList" :key="v.name">
-				<image :src="`../../../static/images/user_menu_${k+2}.png`" mode="widthFix" class="menu-icon"></image>
+				<image :src="`../../../static/images/user_menu_${k + 2}.png`" mode="widthFix" class="menu-icon"></image>
 				<text class="menu-text">{{ v.name }}</text>
 			</view>
 			<view class="menu-item" @click="pushMessage">
@@ -42,104 +46,102 @@
 			</view>
 		</view>
 		<FooterNav />
-		<u-modal :show="show" title="退出" content='您确认要退出用户登录?' :showCancelButton="true" @confirm="sinOut(true)" @cancel="sinOut(false)"></u-modal>
-		
-		<u-modal :show="showScan" :content="'条码类型为：'+ scanType+  '\n' +'条码内容：' + scanText"  @confirm="() => showScan = false"></u-modal>
+		<u-modal :show="show" title="退出" content="您确认要退出用户登录?" :showCancelButton="true" @confirm="sinOut(true)" @cancel="sinOut(false)"></u-modal>
+
+		<u-modal :show="showScan" :content="'条码类型为：' + scanType + '\n' + '条码内容：' + scanText" @confirm="() => (showScan = false)"></u-modal>
 	</view>
 </template>
 
-<script>
-	import FooterNav from '@/components/footerNav.vue'
-	export default {
-		data() {	
-			return {
-				show: false,
-				showScan: false,
-				orderEnterList: [
-					{
-						name: '待付款'
-					},
-					{
-						name: '待使用'
-					},
-					{
-						name: '待评价'
-					},
-					{
-						name: '退款/售后'
-					},
-				],
-				menuList: [
-					{
-						name: '我的收藏',
-					},
-					{
-						name: '我的抵用券',
-					},
-					{
-						name: '我的抽奖单',
-					},
-				],
-				scanType: '',
-				scanText: '',
-			}
+<script setup>
+import FooterNav from '@/components/footerNav.vue';
+import { onMounted, reactive, toRefs } from 'vue';
+
+const state = reactive({
+	show: false,
+	showScan: false,
+	orderEnterList: [
+		{
+			name: '待付款'
 		},
-		
-		mounted() {
-			const userInfo =  uni.getStorageSync('userInfo');
-			
-			if(!userInfo) {
-				uni.redirectTo({
-					url: '/pages/index/login'
-				})
-			}
+		{
+			name: '待使用'
 		},
-		methods: {
-			showSinModel() {
-				this.show = true;
-			},
-			sinOut(btn) {
-				if(btn) {
-					uni.setStorageSync('userInfo', '');
-					uni.navigateTo({
-						url: '/pages/index/index'
-					})
-				}else {
-					this.show = false;
-				}
-				
-			},
-			pushMessage() {
-				uni.createPushMessage({
-					title: '推送消息测试',
-					content: '测试成功哈哈哈',
-					sound: 'system',
-					cover: true,
-					payload: {
-						url: '/pages/index/index'
-					},
-					success: () => {
-						console.log('推送消息成功！-----------')
-					}
-				})
-			},
-			scanCode() {
-				const that = this;
-				uni.scanCode({
-					success: function (res) {
-						// console.log('条码类型：' + res.scanType);
-						// console.log('条码内容：' + res.result);
-						that.showScan = true;
-						that.scanType = res.scanType;
-						that.scanText = res.result;
-					}
-				})
-			},
+		{
+			name: '待评价'
 		},
-		components: {
-			FooterNav,
+		{
+			name: '退款/售后'
 		}
+	],
+	menuList: [
+		{
+			name: '我的收藏'
+		},
+		{
+			name: '我的抵用券'
+		},
+		{
+			name: '我的抽奖单'
+		}
+	],
+	scanType: '',
+	scanText: ''
+});
+
+const { show, showScan, orderEnterList, menuList, scanType, scanText } = toRefs(state)
+
+
+onMounted(() => {
+	const userInfo = uni.getStorageSync('userInfo');
+
+	if (!userInfo) {
+		uni.redirectTo({
+			url: '/pages/index/login'
+		})
+
 	}
+})
+
+
+function showSinModel() {
+	show.value = true;
+}
+function sinOut(btn) {
+	if (btn) {
+		uni.setStorageSync('userInfo', '');
+		uni.navigateTo({
+			url: '/pages/index/index'
+		})
+
+	} else {
+		show.value = false;
+	}
+}
+function pushMessage() {
+	uni.createPushMessage({
+		title: '推送消息测试',
+		content: '测试成功哈哈哈',
+		sound: 'system',
+		cover: true,
+		payload: {
+			url: '/pages/index/index'
+		},
+		success: () => {
+			console.log('推送消息成功！-----------');
+		}
+	});
+}
+function scanCode() {
+	uni.scanCode({
+		success: function (res) {
+			// console.log('条码类型：' + res.scanType);
+			// console.log('条码内容：' + res.result);
+			showScan.value = true;
+			scanType.value = res.scanType;
+			scanText.value = res.result;
+		}
+	});
+}
 </script>
 
 <style scoped lang="scss">
@@ -148,7 +150,7 @@
 	min-height: 100vh;
 	.user-warrper {
 		display: flex;
-		padding: 28rpx 20rpx 28rpx 40rpx ;
+		padding: 28rpx 20rpx 28rpx 40rpx;
 		background: #fff url('../../../static/images/my-photo.png') no-repeat scroll center/cover;
 		.avatar {
 			flex-shrink: 0;
@@ -194,7 +196,7 @@
 			}
 		}
 		.order-entry {
-			border-top: .3vw solid #ddd8ce;
+			border-top: 0.3vw solid #ddd8ce;
 			padding: 3.7vw 0;
 			display: flex;
 			justify-content: space-between;
@@ -218,7 +220,7 @@
 			display: flex;
 			align-items: center;
 			padding: 3.7vw 2.7vw;
-			border-bottom: .3vw solid #ddd8ce;
+			border-bottom: 0.3vw solid #ddd8ce;
 			.menu-icon {
 				width: 6.7vw;
 				flex-shrink: 0;

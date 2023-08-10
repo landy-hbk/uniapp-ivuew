@@ -53,9 +53,8 @@
 <script>
 import { ref, reactive, toRefs } from 'vue';
 import RecomendList from '@/components/recomendList.vue'
-
 import FooterNav from '@/components/footerNav.vue'
-
+import { recommendList } from '@/const/goods.js'
 
 export default {
 	setup() {
@@ -104,69 +103,12 @@ export default {
 
 		};
 
-		const goodsList = reactive([
-			{
-				title: '蜜雪冰城',
-				label: '[多城市]招牌柠檬水',
-				price: 3.6,
-				img: '../../static/images/good_1.jpg',
-				market_price: 12
-			},
-			{
-				title: '茶百道',
-				label: '[多城市]爆品-冷萃茶 2 选 1',
-				price: 6.6,
-				img: '../../static/images/good_2.jpg',
-				market_price: 15
-			},
-			{
-				title: '川锅汇·火锅·烤肉自助回转餐厅',
-				label: '[北京路商业区]火锅+烤肉自助餐',
-				price: 45,
-				img: '../../static/images/good_3.jpg',
-				market_price: 98
-			},
-			{
-				title: '华莱士·全鸡汉堡',
-				label: '[多城市]开学季双人餐',
-				price: 16.8,
-				img: '../../static/images/good_4.jpg',
-				market_price: 32.5
-			},
-			{
-				title: '正點煌·纯手作茶点',
-				label: '[北京路商业区]扇鸡咕咾肉甜品双人餐',
-				price: 128,
-				img: '../../static/images/good_5.jpg',
-				market_price: 256
-			},
-			{
-				title: '胜记饭店順德农家菜',
-				label: '[钟村]2-3 人海鲜大丰收套餐',
-				price: 96,
-				img: '../../static/images/good_6.jpg',
-				market_price: 188
-			},
-			{
-				title: '桃沏·鲜果轻饮',
-				label: '[龙洞/岑村]爆浆系列 2 选 1',
-				price: 6.9,
-				img: '../../static/images/good_7.jpg',
-				market_price: 13
-			},
-			{
-				title: '番佬掂·劲脆烧肉',
-				label: '[5店通用]单人烧鸭饭',
-				price: 9.9,
-				img: '../../static/images/good_8.jpg',
-				market_price: 23
-			}
-		]);
+		const goodsList = reactive(recommendList);
 		
 		const goodsClick = (e) => {
 			const { title } = e;
 			uni.navigateTo({
-				url: `/pages/goods/storeDetails?title=${title}`
+				url: `/pages/store/storeDetails?title=${title}`
 			})
 		}
 		// label点击事件

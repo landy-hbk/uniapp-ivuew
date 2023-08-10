@@ -16,9 +16,12 @@
 			</view>
 			<view class="">
 				<u-tabs :list="tabList"
-					:class="`tabPosition tabs ${tabPosition === 'relative' ? 'tab-rel' : 'tab-abs'}`"></u-tabs>
+					:class="`tabPosition tabs ${tabPosition === 'relative' ? 'tab-rel' : 'tab-abs'}`"
+					@change="tabChange"
+				>
+				</u-tabs>
 				<view :class="`tab-view  ${tabPosition === 'relative' ? 'tab-rel' : 'tab-abs'}`">
-					<view class="store-goods">
+					<view class="store-goods" v-show="tabIndex === 0">
 						<view class="goods-left">
 							<view class="goods-classify" v-for="(v, k) in classifyListData" :key="k"
 								@click="changeScrollId(`tab_id_${k}`)">
@@ -65,26 +68,117 @@
 								</view>
 							</scroll-view>
 						</view>
+						
+						<view class="place-order-btn">
+							<view class="btn-warrper">
+								<view class="place-info">
+									<text class="palce-num">已购买+{{ payforNum }}</text>
+									<view class="total"> 
+										<text class="place-price">￥{{ payforTotal }}</text>
+										<text class="distribution-price">预估配送费￥2</text>
+									</view>
+								</view>
+								<text class="star-price" v-if="!payforIsok">还差￥{{ parforGapPrice }}起送</text>
+								<view class="payfor-btn" v-else @click="jumpOrderView">
+									去结算
+								</view>
+							</view>
+						
+						</view>
+					
+					</view>
+					
+					<view class="store-comment" v-show="tabIndex === 1">
+						<view class="store-rate">
+							<view class="rate-left">
+								<text class="rate-num">4.8</text>
+								<view class="rate-box">
+									<text class="rate-title">商家评分</text>
+									<u-rate v-model="rateNumber" gutter="1" inactiveColor="#b2b2b2" activeColor="#ffd44d" readonly ></u-rate>
+								</view>
+							</view>
+							<view class="rate-label">
+								<view class="lable">
+									<text class="label-name">口味</text>
+									<text class="lable-num">4.8</text>
+								</view>
+								<view class="lable rate-margin">
+									<text class="label-name">包装</text>
+									<text class="lable-num">4.7</text>
+								</view>
+								<view class="lable">
+									<text class="label-name">配送</text>
+									<text class="lable-num">4.9</text>
+								</view>
+							</view>
+						</view>
+						
+						<view class="comment-label">
+							<view 
+								:class="{
+									'label-item': true,
+									'active': k === commentLabelCurrent,
+								}" 
+								v-for="(v,k) in commentLabelList" :key="k"
+								@click="changeCommentLabel(k)"
+							>
+								<text class="lable-name">{{ v.name }}</text>
+								<text class="label-num">{{ v.total }}</text>
+							</view>
+						</view>
+						
+						<view class="comment-list">
+							<view class="comment-item" v-for="(v, k) in commentList" :key="k">
+								<view class="comment-header">
+									<view class="header-left">
+										<image src="../../static/images/user_default.png" mode="" class="user-cover"></image>
+										<view class="user-rate">
+											<text class="user-name">匿名用户</text>
+											<view class="rate-wrrper">
+												<u-rate v-model="rateNumber" gutter="1" inactiveColor="#b2b2b2" activeColor="#ffd44d" readonly ></u-rate>
+												<text class="rate-text">非常满意</text>
+											</view>
+										</view>
+									</view>
+									<text class="time">2023-05-05</text>
+								</view>
+								<view class="comment-content">
+									<view class="comment-body">
+										好吃，很喜欢猪扒，鸡翅的话感觉里面味在入近去点就更好了
+									</view>
+									<view class="comment-pictrue">
+										<view class="pictrue-item-warrper" v-for="(v,k) in [,,,,]" :key="k">
+											<image src="../../static/images/good_3.jpg" mode="" class="pictrue-item"></image>
+										</view>
+									</view>
+								</view>
+							</view>
+						</view>
+					</view>
+					<view class="store-detail" v-show="tabIndex === 2">
+						<view class="detail-list">
+							<view class="detail-item">
+								<u-icon name="map" color="#909399" size="20" class="detail-icon"></u-icon>
+								<text class="detail-title">广州市番禺区市桥街东涌路东风大街2座103之一</text>
+							</view>
+							<view class="detail-item">
+								<u-icon name="file-text" color="#909399" size="20" class="detail-icon"></u-icon>
+								<text class="detail-title">查看食品安全档案</text>
+							</view>
+							<view class="detail-item">
+								<u-icon name="clock" color="#909399" size="20" class="detail-icon"></u-icon>
+								<text class="detail-title">配送时间：09:50-18:25</text>
+							</view>
+							<view class="detail-item">
+								<u-icon name="volume" color="#909399" size="20" class="detail-icon"></u-icon> 
+								<text class="detail-title line-1">欢迎光临，如果您在选购或用餐过程中有任何疑问以及建议，可第一时间联系我们，小店将竭诚为您服务，祝您用餐愉快！</text>
+							</view>
+						</view>
 					</view>
 				</view>
 			</view>
 		</view>
-		<view class="place-order-btn">
-			<view class="btn-warrper">
-				<view class="place-info">
-					<text class="palce-num">已购买+{{ payforNum }}</text>
-					<view class="total"> 
-						<text class="place-price">￥{{ payforTotal }}</text>
-						<text class="distribution-price">预估配送费￥2</text>
-					</view>
-				</view>
-				<text class="star-price" v-if="!payforIsok">还差￥{{ parforGapPrice }}起送</text>
-				<view class="payfor-btn" v-else @click="jumpOrderView">
-					去结算
-				</view>
-			</view>
-
-		</view>
+		
 	</view>
 </template>
 
@@ -118,7 +212,54 @@
 					name: '商家',
 				}
 			]);
-
+			const tabIndex = ref(0);
+			const tabChange = (e) => {
+				// console.log(e, 'e')
+				const { index } = e;
+				
+				tabIndex.value = index
+			}
+			
+			const rateNumber = ref(5)
+			
+			const commentLabelList = reactive([
+				{
+					name: '全部',
+					total: 156,
+				},
+				{
+					name: '最新',
+					total: null,
+				},
+				{
+					name: '好评',
+					total: 135,
+				},
+				{
+					name: '差评',
+					total: 14,
+				},
+				{
+					name: '有图评价',
+					total: 43,
+				},
+				{
+					name: '商家回复',
+					total: 6,
+				},
+				{
+					name: '味道赞',
+					total: 15,
+				},
+				{
+					name: '推荐',
+					total: 3,
+				},
+			])
+			
+			const commentLabelCurrent = ref(0);
+			const commentList = reactive([,,,,,,])
+			
 			const classifyListData = reactive(classifyList);
 			const goodsListData = reactive(goodsList)
 			const scrollId = ref('');
@@ -132,6 +273,26 @@
 			const parforGapPrice = ref(20);
 			const payforIsok = ref(false);
 			// console.log(goodsListData, 'goodsListData')
+			
+			
+			// 评论标签change
+			const changeCommentLabel = (index) => {
+				console.log(index, commentList)
+				if(commentLabelCurrent.value !== index) {
+					commentLabelCurrent.value = index
+					
+					uni.showLoading({
+						title: '加载中'
+					});
+					
+					commentList.length = 0;
+					
+					setTimeout(() => {
+						commentList.length = 6;
+						uni.hideLoading()
+					}, 500)
+				}
+			}
 			// 锚点
 			const changeScrollId = v => {
 				console.log(v);
@@ -231,6 +392,13 @@
 				numInputChange,
 				jumpOrderView,
 				storeName,
+				tabIndex,
+				tabChange,
+				rateNumber,
+				commentLabelList,
+				commentLabelCurrent,
+				changeCommentLabel,
+				commentList,
 			}
 		},
 		onLoad(options) {
@@ -345,6 +513,7 @@
 
 			&.tab-rel {
 				position: relative;
+				z-index: 2;
 			}
 
 			&.tab-abs {
@@ -572,6 +741,170 @@
 					display: flex;
 					-webkit-justify-content: center;
 					justify-content: center;
+				}
+			}
+		}
+		.store-comment {
+			background-color: #f5f5f5;
+			.store-rate {
+				display: flex;
+				justify-content: space-between;
+				padding: 40rpx 0 30rpx;
+				background-color: #fff;
+				margin-bottom: 20rpx;
+				.rate-left {
+					display: flex;
+					align-items: flex-end;
+					padding-left: 60rpx;
+					.rate-num {
+						margin-right: 2.66666667vw;
+						margin-bottom: -1.6vw;
+						font-size: 8.53333333vw;
+						color: #FF8000;
+					}
+					.rate-box {
+						.rate-title {
+							font-size: 3.2vw;
+							color: #858687;
+							font-family: "PingFangSC-Regular",Hiragino Sans GB,Arial,Helvetica,"宋体",sans-serif;
+						}
+					}
+				}
+				.rate-label {
+					display: flex;
+					padding-right: 32rpx;
+					.rate-margin {
+						margin-left: 6.66666667vw;
+						margin-right: 10.66666667vw;
+					}
+					.label-name {
+						font-size: 3.2vw;
+						color: #858687;
+					}
+					.lable-num {
+						display: block;
+						margin-top: 2.13333333vw;
+						font-size: 4.26666667vw;
+						font-weight: 500;
+						color: #222426;
+					}
+				}
+			}
+		
+			.comment-label {
+				padding: 3.2vw 3.2vw 0;
+				background: #fff;
+				margin-top: 2.13333333vw;
+				color: #666;
+				.label-item {
+					display: inline-block;
+					vertical-align: middle;
+					padding: 0 2.66666667vw;
+					height: 7.46666667vw;
+					line-height: 7.46666667vw;
+					margin: 2.13333333vw 1.06666667vw 0;
+					background: #FFF8E1;
+					font-size: 3.2vw;
+					color: #222426;
+					text-align: center;
+					border-radius: 1.06666667vw;
+					&.active {
+						background: #fc3;
+						color: #222426;
+					}
+					.lable-name {
+						
+					}
+					.label-num {
+						
+					}
+				}
+			}
+			
+		}
+		.comment-list {
+			background-color: #fff;
+			padding: 0 4vw;
+			.comment-item {
+				padding: 5.33333333vw 0 4.26666667vw 0;
+				.comment-header {
+					display: flex;
+					justify-content: space-between;
+					.header-left {
+						display: flex;
+						.user-cover {
+							width: 9.6vw;
+							height: 9.6vw;
+							border-radius: 50%;
+							margin-right: 2.13333333vw;
+						}
+						.rate-wrrper {
+							display: flex;
+							.rate-text {
+								color: rgb(133, 134, 135);
+								font-size: 2.93333vw;
+								margin-left: 1.33333vw;
+							}
+						}
+						.user-name {
+							color: #33322E;
+							font-size: 3.73333333vw;
+						}
+					}
+					.time {
+						font-size: 3.2vw;
+						color: #898989;
+					}
+				}
+			
+				.comment-content {
+					.comment-body {
+						font-size: 3.73333333vw;
+						line-height: 5.33333333vw;
+						color: #2f2f2f;
+						padding-top: 3.73333333vw;
+						padding-bottom: 2.13333333vw;
+					}
+					.comment-pictrue {
+						margin-bottom: 1.06666667vw;
+						display: flex;
+						flex-wrap: wrap;
+						.pictrue-item-warrper {
+							// flex: 28.86666667vw 0 28.86666667vw;
+							margin-right: 2.15066667vw;
+							margin-bottom: 2.15066667vw;
+							width: 27.86666667vw;
+							height: 27.86666667vw;
+							overflow: hidden;
+							.pictrue-item {
+								width: 100%;
+								height: 100%;
+								border-radius: 1.6vw;
+							}
+						}
+					}
+				}
+			}
+		}
+		.detail-list {
+			overflow: hidden;
+			.detail-item {
+				background: white;
+				color: #333;
+				padding: 0  30rpx;
+				align-items: flex-start;
+				display: flex;
+				margin: 36rpx 0;
+				.detail-icon {
+					font-size: 28rpx;
+				}
+				.detail-title {
+					word-wrap: break-word;
+					font-size: 28rpx;
+					line-height: 46rpx;
+					padding-left: 12rpx;
+					font-family: "PingFangSC-Regular",Hiragino Sans GB,Arial,Helvetica,"宋体",sans-serif;
+					    font-size: 14px;
 				}
 			}
 		}

@@ -19,7 +19,7 @@
         /* 模块配置 */
         "modules" : {
             "Push" : {},
-            "Maps" : {}
+            "Geolocation" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -64,8 +64,13 @@
                 },
                 "maps" : {
                     "amap" : {
-                        "appkey_ios" : "",
-                        "appkey_android" : ""
+                        "appkey_ios" : "e9097ee037b6c0ca81504827bc89f78c",
+                        "appkey_android" : "e9097ee037b6c0ca81504827bc89f78c"
+                    }
+                },
+                "geolocation" : {
+                    "system" : {
+                        "__platform__" : [ "ios", "android" ]
                     }
                 }
             }

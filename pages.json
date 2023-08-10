@@ -18,14 +18,14 @@
 			}
 		},
 		{
-			"path": "pages/goods/list",
+			"path": "pages/store/list",
 			"style": {
 				"navigationBarTitleText": "外卖",
 				"navigationBarBackgroundColor": "#ffd000"
 			}
 		},
 		{
-			"path": "pages/goods/storeDetails",
+			"path": "pages/store/storeDetails",
 			"style": {
 				"navigationBarTitleText": ""
 			}
