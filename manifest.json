@@ -70,7 +70,12 @@
                 },
                 "geolocation" : {
                     "system" : {
-                        "__platform__" : [ "ios", "android" ]
+                        "__platform__" : [ "android" ]
+                    },
+                    "amap" : {
+                        "__platform__" : [ "android" ],
+                        "appkey_ios" : "e9097ee037b6c0ca81504827bc89f78c",
+                        "appkey_android" : "e9097ee037b6c0ca81504827bc89f78c"
                     }
                 }
             }

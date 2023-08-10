@@ -21,7 +21,7 @@
 				<text class="title">全部订单</text>
 			</view>
 			<view class="order-entry">
-				<view class="entry-item" v-for="(v, k) in orderEnterList" :key="v.name">
+				<view class="entry-item" v-for="(v, k) in orderEnterList" :key="v.name" @click="toPage('/pages/order/orderList')">
 					<image :src="`../../../static/images/order_icon_${k + 1}.png`" mode="heightFix" class="entry-icon"></image>
 					<text class="entry-text">{{ v.name }}</text>
 				</view>
@@ -102,6 +102,11 @@ onMounted(() => {
 	}
 })
 
+const toPage = (url) => {
+	uni.navigateTo({
+		url: url
+	})
+}
 
 function showSinModel() {
 	show.value = true;
