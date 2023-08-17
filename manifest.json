@@ -18,8 +18,7 @@
         },
         /* 模块配置 */
         "modules" : {
-            "Push" : {},
-            "Geolocation" : {}
+            "Push" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -69,12 +68,9 @@
                     }
                 },
                 "geolocation" : {
-                    "system" : {
-                        "__platform__" : [ "android" ]
-                    },
                     "amap" : {
-                        "__platform__" : [ "android" ],
-                        "appkey_ios" : "e9097ee037b6c0ca81504827bc89f78c",
+                        "__platform__" : [ "ios", "android" ],
+                        "appkey_ios" : "f41ed6eeb58c5c3828747a4ea58d9752",
                         "appkey_android" : "e9097ee037b6c0ca81504827bc89f78c"
                     }
                 }
